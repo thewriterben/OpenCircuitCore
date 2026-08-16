@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "opencircuitcore")
 	(generator_version "1.0")
-	(uuid "c85bf385-429b-4258-8358-4918491b061c")
+	(uuid "76614d9c-e3cd-487c-969f-858688ce2e87")
 	(paper "A4")
 	(lib_symbols
 		(symbol
@@ -791,7 +791,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b3dc271b-4d9b-4212-ab95-e4274280094e")
+		(uuid "46482545-4029-4cef-bd4b-72e7c1ef58b9")
 		(property
 			"Reference"
 			"U2"
@@ -860,7 +860,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "U2")
 					(unit 1)
 				)
@@ -875,7 +875,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e8308549-2bb1-40f6-80f3-86afaf872b1b")
+		(uuid "8ebff605-8e84-4370-849c-020b25660c60")
 		(property
 			"Reference"
 			"R1"
@@ -944,7 +944,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "R1")
 					(unit 1)
 				)
@@ -959,7 +959,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a8ce1402-6c16-43c6-80c7-e629308d09a8")
+		(uuid "e3131f1a-31a7-47f7-8b99-772f9410884b")
 		(property
 			"Reference"
 			"R2"
@@ -1028,7 +1028,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "R2")
 					(unit 1)
 				)
@@ -1043,7 +1043,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "382b52e8-8804-41f3-bc18-eba923c0be2d")
+		(uuid "c2bbeee1-45c5-4ed3-9bed-367b5eec0f82")
 		(property
 			"Reference"
 			"C1"
@@ -1112,7 +1112,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "C1")
 					(unit 1)
 				)
@@ -1127,7 +1127,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f6c90870-6867-49c9-bbef-f24c1081e37b")
+		(uuid "40dd8dce-0a3a-48fc-a374-d90a1866e82a")
 		(property
 			"Reference"
 			"#FLG01"
@@ -1185,7 +1185,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "#FLG01")
 					(unit 1)
 				)
@@ -1200,7 +1200,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ed1f49a4-e52c-4d84-94c5-0e97afbd7d62")
+		(uuid "cc14892d-4200-420b-88be-d3a7dde54a3e")
 		(property
 			"Reference"
 			"#FLG02"
@@ -1258,7 +1258,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/c85bf385-429b-4258-8358-4918491b061c"
+					"/76614d9c-e3cd-487c-969f-858688ce2e87"
 					(reference "#FLG02")
 					(unit 1)
 				)
@@ -1275,7 +1275,7 @@
 			)
 			(justify left)
 		)
-		(uuid "edc70546-699b-4bc4-9840-fbdf2a13abd7")
+		(uuid "07b478c7-7376-4f5e-be97-3c4da293fefe")
 	)
 	(global_label
 		"GND"
@@ -1287,7 +1287,7 @@
 			)
 			(justify left)
 		)
-		(uuid "14a18837-a042-4401-bdb9-a15bdb42a061")
+		(uuid "ed3b3148-8c70-4faa-b6c4-b5e3249800ca")
 	)
 	(global_label
 		"+3V3"
@@ -1299,7 +1299,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e965cb71-bc3c-4e0f-8af1-1380b74acec5")
+		(uuid "2066f4d4-b729-4782-ad10-d26603db80f4")
 	)
 	(global_label
 		"+3V3"
@@ -1311,7 +1311,7 @@
 			)
 			(justify left)
 		)
-		(uuid "402df829-f21a-4d7c-9ff9-d00f14129ba1")
+		(uuid "e6bddc7a-39ba-4cec-8b92-df4358dba8c6")
 	)
 	(global_label
 		"+3V3"
@@ -1323,7 +1323,7 @@
 			)
 			(justify left)
 		)
-		(uuid "04fe7b65-ec10-482a-8af2-ce540f26c2df")
+		(uuid "01691908-30dc-4d37-9d05-e0c66efba590")
 	)
 	(global_label
 		"GND"
@@ -1335,7 +1335,7 @@
 			)
 			(justify left)
 		)
-		(uuid "90c77336-4a1f-4eb1-8661-2c223b3aa12a")
+		(uuid "d6d2e535-55fe-4b13-aa35-c4452a373b11")
 	)
 	(global_label
 		"SDA"
@@ -1347,7 +1347,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2fdd2512-0801-49d9-8c34-81083c7017ec")
+		(uuid "6bebf11f-6b53-4343-856f-b1ec24b0fb90")
 	)
 	(global_label
 		"SCL"
@@ -1359,7 +1359,7 @@
 			)
 			(justify left)
 		)
-		(uuid "132abb1c-87dc-4b02-87e7-c2edcbb09cc7")
+		(uuid "f3c24d56-74af-4d40-90aa-f2fdfeac5027")
 	)
 	(global_label
 		"+3V3"
@@ -1371,7 +1371,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f6e15b2e-541d-4b8b-a67f-0909498db6c1")
+		(uuid "e8bf92c4-e02b-4a3f-9749-742056d9eb71")
 	)
 	(global_label
 		"SDA"
@@ -1383,7 +1383,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c53a4a39-0869-4df9-be0f-98bc3a680d6c")
+		(uuid "1b49ac94-1451-4be8-816f-0fbb93014981")
 	)
 	(global_label
 		"+3V3"
@@ -1395,7 +1395,7 @@
 			)
 			(justify left)
 		)
-		(uuid "5ac97fc2-fe87-482e-aa3a-84fa5bdf0ec9")
+		(uuid "1c8b3dc7-a1df-4d52-8ee9-4a9665f7a668")
 	)
 	(global_label
 		"SCL"
@@ -1407,7 +1407,7 @@
 			)
 			(justify left)
 		)
-		(uuid "72b0b75c-d13b-4e7b-a0b0-e6e0b0789051")
+		(uuid "0407af67-2ed9-4fbc-9d11-55fb0f47c311")
 	)
 	(global_label
 		"+3V3"
@@ -1419,7 +1419,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1557687e-c8e9-4f4c-bc77-2cd7796514f5")
+		(uuid "64543968-895a-4434-a499-5849c9e22fda")
 	)
 	(global_label
 		"GND"
@@ -1431,7 +1431,7 @@
 			)
 			(justify left)
 		)
-		(uuid "743457eb-d5fe-410d-a45f-a950efbdfafc")
+		(uuid "4c5df2a7-c512-4b59-8929-d26d9fd4c5d2")
 	)
 	(global_label
 		"+3V3"
@@ -1443,7 +1443,7 @@
 			)
 			(justify left)
 		)
-		(uuid "62116bbd-e3c3-4fdd-a9dc-b89c26d68c04")
+		(uuid "ba67dea7-5dd2-421d-8330-103724614465")
 	)
 	(global_label
 		"GND"
@@ -1455,7 +1455,7 @@
 			)
 			(justify left)
 		)
-		(uuid "67deb23d-b02d-4580-9656-c8ed4e71c9e4")
+		(uuid "6e7ebc7e-ba3b-43f6-8933-c25edacac571")
 	)
 	(sheet_instances
 		(path
