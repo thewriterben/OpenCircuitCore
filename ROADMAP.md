@@ -5,7 +5,7 @@
 - [x] Reference board: ESP32-S3 module + I2C sensor placed, **DRC clean**, STL/STEP exported (2026-08-15)
 - [x] Schematic: netlist-described, **ERC clean**, netlist and BOM exported (2026-08-15)
 - [x] BOM entries resolve to OpenPartsCore ids, including the generic 0603 passives (2026-08-15)
-- [ ] Gerbers and drill files exported and checked against a fab's rules
+- [x] Gerbers and drill exported, and DRC run against a **cited** fab profile (JLCPCB 2-layer 1 oz): 0 violations (2026-08-15)
 - [x] Provenance record emitted per build: sources, upstream netlist, outputs, ERC/DRC results, KiCad version, commit — canonical JSON, hash-comparable with OpenDesignCore and BINGO; refuses to emit when a check result is unreadable (2026-08-15)
 
 - [x] Schematic drives the board: `boards/sensor-breakout` takes its parts from the shared description and its **nets from the schematic's exported netlist**; 0 DRC violations, unrouted ratsnest reported honestly (2026-08-15)
@@ -15,7 +15,8 @@
 - [ ] A connector on the breakout so power and I2C have somewhere to land
 - [x] Board → enclosure co-design: `pcb export step` into OpenDesignCore's mesh import boundary, enclosure fitted to the real board (2026-08-15)
 - [ ] Distributor sourcing: BOM → live price/stock (Octopart/Mouser/LCSC) with price-break optimisation
-- [ ] Fab DRC profiles (JLC/PCBWay/OSH Park rule sets, versioned)
+- [ ] More fab profiles (PCBWay, OSH Park) alongside the JLCPCB one; each cited to the vendor's published capability
+- [ ] Custom rule file (`.kicad_dru`) for the capabilities KiCad has no board-wide setting for: NPTH annular ring, min non-plated hole, via annular ring
 - [ ] MCP surface: design / verify / bom as tools (ADR-0009 execute-vs-propose line)
 
 ## Not ever

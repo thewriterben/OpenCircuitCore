@@ -28,7 +28,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = "occ/provenance/0.1"
 
 DESIGN_SOURCES = ("*.kicad_sch", "*.kicad_pcb", "*.net")
-OUTPUTS = ("*.stl", "*.step", "*.csv", "*.gbr", "*.drl")
+OUTPUTS = (
+    "*.stl", "*.step", "*.csv",
+    # Fab package lands in fab/; gerber extensions are per-layer, not uniform.
+    "fab/*.gbr", "fab/*.gbl", "fab/*.gtl", "fab/*.gbs", "fab/*.gts",
+    "fab/*.gbo", "fab/*.gto", "fab/*.gbp", "fab/*.gtp", "fab/*.gba",
+    "fab/*.gta", "fab/*.gm1", "fab/*.gbrjob", "fab/*.drl",
+)
 REPORTS = ("erc-report.txt", "drc-report.txt")
 
 
@@ -120,8 +126,9 @@ def collect(board_dir: Path, patterns) -> list:
         for path in sorted(board_dir.glob(pattern)):
             if path.name.endswith(".provenance.json"):
                 continue
-            seen[path.name] = {
-                "name": path.name,
+            rel = path.relative_to(board_dir).as_posix()
+            seen[rel] = {
+                "name": rel,
                 "sha256": sha256_file(path),
                 "bytes": path.stat().st_size,
             }
