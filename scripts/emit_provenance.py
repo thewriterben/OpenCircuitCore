@@ -27,7 +27,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = "occ/provenance/0.1"
 
-DESIGN_SOURCES = ("*.kicad_sch", "*.kicad_pcb", "*.net")
+# The .kicad_dru is a design source, not a side file: it determines what DRC
+# actually checked. A record saying "DRC passed" without it omits the rules
+# that passing was measured against.
+DESIGN_SOURCES = ("*.kicad_sch", "*.kicad_pcb", "*.net", "*.kicad_dru")
 OUTPUTS = (
     "*.stl", "*.step", "*.csv",
     # Fab package lands in fab/; gerber extensions are per-layer, not uniform.

@@ -88,3 +88,22 @@ Combine the two and the failure is concrete: a person spends an evening routing 
 **Consequences.** An agent can answer everything worth asking about a design — what is on it, what it costs in parts, whether it passes, against whose rules — and cannot damage one. The cost is that agent-driven design iteration stops at inspection, which is the right trade until this repo has something that can distinguish "regenerate a file nobody has touched" from "regenerate over a human's work". A git-cleanliness check would be that something, and is the obvious way to revisit this; it is not worth building before a real workflow needs it.
 
 **Not a general rule.** ADR-0009's store-boundary test still holds where writes really are content-addressed. This repo is the case where the boundary is a working tree instead, and the answer differs.
+
+---
+
+## ADR-0006 — A custom DRC rule ships only once it has been proven to fire
+
+**Date:** 2026-08-15
+**Status:** accepted
+
+**Context.** Some fab capabilities have no board-wide KiCad setting and need a `.kicad_dru` custom rule: JLCPCB's minimum non-plated hole (0.50 mm) and NPTH pad annular ring (0.45 mm) are the two this repo hit first.
+
+Custom rules fail quietly. A rule whose constraint name is valid but whose condition never matches — or whose constraint KiCad does not evaluate for the selected object — parses without complaint and reports nothing. DRC then says "0 violations", which reads as coverage and is the opposite: an unchecked design that looks checked. That is a worse outcome than having no rule at all, because it removes the prompt to check by hand.
+
+**Decision.** A rule enters this repo only after being shown to fire. The method: set its threshold absurdly, run DRC, confirm a violation appears **and names the rule**, then restore the real threshold. The evidence goes in a comment beside the rule.
+
+**What this immediately caught.** `npth_min_hole` passed: at `min 5.0mm` it produced `[drill_out_of_range] ... (rule 'npth_min_hole' min hole 5.0000 mm; actual 2.2000 mm)` against both mounting holes and no SMD pad. The annular-ring rule **failed**: `(constraint annular_width)` with the same NPTH condition, set to `min 9.0mm` against holes whose annulus is exactly 0.00 mm (pad size 2.2 mm equals drill 2.2 mm), reported nothing. KiCad 10.0.5 does not appear to evaluate `annular_width` for NPTH pads.
+
+Had the liveness check not been part of the process, that rule would have shipped, DRC would have reported clean, and the board would have carried an unverified constraint under the appearance of a verified one.
+
+**Consequences.** Adding a rule costs an extra two DRC runs. In exchange, "DRC passes" means the rules actually ran. The annular figure is documented in the rule file as not encoded, with the evidence, so the next person does not repeat the experiment — and it is a human check until a copper-ringed NPTH pad appears on a board here. The same discipline applies to any future rule: no exceptions for ones that look obviously right, since the annular rule looked obviously right.

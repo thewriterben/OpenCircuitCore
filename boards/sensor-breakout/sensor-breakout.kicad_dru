@@ -1,0 +1,30 @@
+(version 1)
+
+# Fab capabilities that KiCad has no board-wide setting for, taken from the
+# cited profile fab-profiles/jlcpcb-2layer-1oz.json. See ADR-0006.
+#
+# Every rule here has been proven to evaluate, not merely to parse: a rule
+# that parses and never matches is worse than no rule, because it reads as
+# coverage. The method is to set the threshold absurdly, confirm DRC reports
+# the violation and names the rule, then restore.
+
+# JLCPCB Drilling: "Min. Non-plated holes 0.50mm".
+# Verified live: at min 5.0mm this reports
+#   [drill_out_of_range] ... (rule 'npth_min_hole' min hole 5.0000 mm; actual 2.2000 mm)
+# against both mounting holes, and matches no SMD pad.
+(rule "npth_min_hole"
+	(constraint hole_size (min 0.50mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical'")
+)
+
+# NOT ENCODED: JLCPCB "NPTH pad annular ring >= 0.45mm".
+#
+# A rule using (constraint annular_width) with the same NPTH condition parses
+# cleanly and never fires -- set to min 9.0mm against holes whose annulus is
+# 0.00mm (pad size 2.2mm == drill 2.2mm), DRC reported nothing. KiCad 10.0.5
+# does not appear to evaluate annular_width for NPTH pads.
+#
+# The vendor figure applies to NPTH pads that carry copper; plain mounting
+# holes have none. Rather than ship a rule that reads as coverage and provides
+# none, this is left to a human check when a copper-ringed NPTH pad first
+# appears on a board here.
