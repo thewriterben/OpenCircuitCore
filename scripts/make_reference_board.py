@@ -27,9 +27,49 @@ BOARD_FILE = OUT_DIR / "reference-esp32s3.kicad_pcb"
 
 # Board envelope, mm. The WROOM-1 module is 18.0 x 25.5 (OpenPartsCore
 # boards/esp32-s3 -> Espressif datasheet); the carrier adds margin.
-BOARD_W_MM = 30.0
-BOARD_H_MM = 40.0
+BOARD_W_MM = 34.0
+BOARD_H_MM = 46.0
 HOLE_INSET_MM = 3.5
+
+# The ESP32-S3-WROOM-1 footprint carries an antenna keepout that reaches past
+# the module body; the first placement put mounting holes inside it and DRC
+# said so. Components sit clear of the corners as a result.
+#
+# The module's thermal vias are 0.2 mm, below KiCad's 0.3 mm default minimum.
+# 0.2 mm is within normal fab capability, so the constraint is relaxed
+# deliberately here rather than the design being bent around a default.
+MIN_THROUGH_DRILL_MM = 0.2
+
+# Lowest y at which a mounting hole clears U1's antenna keepout, measured from
+# the placed footprint (keepout spans the full width up to y = 13.25 mm) plus
+# a margin. Not a guess -- see the note in add_mounting_holes.
+KEEPOUT_CLEAR_Y_MM = 17.0
+
+# Components, each bound to an OpenPartsCore id. The `opc_id` field on the
+# footprint is what make_bom.py resolves against the registry -- the BOM is
+# never assembled from designator guesswork.
+COMPONENTS = [
+    {
+        "ref": "U1",
+        "lib": "RF_Module",
+        "footprint": "ESP32-S3-WROOM-1",
+        "value": "ESP32-S3-WROOM-1",
+        "opc_id": "boards/esp32-s3",
+        "x_mm": 17.0,
+        "y_mm": 20.0,
+        "rot_deg": 0.0,
+    },
+    {
+        "ref": "U2",
+        "lib": "Package_LGA",
+        "footprint": "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering",
+        "value": "BME280",
+        "opc_id": "electronic/bme280",
+        "x_mm": 17.0,
+        "y_mm": 38.0,
+        "rot_deg": 0.0,
+    },
+]
 
 
 def find_footprint_lib(name: str) -> str:
@@ -63,10 +103,14 @@ def add_mounting_holes(board) -> list:
         raise SystemExit(f"no M3 mounting-hole footprint in {lib}")
     fp_name = candidates[0].stem
 
+    # Hole positions are dictated by the module's antenna keepout, measured
+    # from the placed footprint: it spans the full board width up to
+    # y = 13.25 mm. Nothing may sit inside it, so the upper pair moves down
+    # below that line rather than living in the corners.
     placed = []
     positions = [
-        (HOLE_INSET_MM, HOLE_INSET_MM),
-        (BOARD_W_MM - HOLE_INSET_MM, HOLE_INSET_MM),
+        (HOLE_INSET_MM, KEEPOUT_CLEAR_Y_MM),
+        (BOARD_W_MM - HOLE_INSET_MM, KEEPOUT_CLEAR_Y_MM),
         (HOLE_INSET_MM, BOARD_H_MM - HOLE_INSET_MM),
         (BOARD_W_MM - HOLE_INSET_MM, BOARD_H_MM - HOLE_INSET_MM),
     ]
@@ -85,17 +129,52 @@ def add_mounting_holes(board) -> list:
     return placed
 
 
+def add_components(board) -> list:
+    placed = []
+    for spec in COMPONENTS:
+        lib = find_footprint_lib(spec["lib"])
+        footprint = pcbnew.FootprintLoad(lib, spec["footprint"])
+        if footprint is None:
+            raise SystemExit(f"failed to load {spec['footprint']} from {lib}")
+        footprint.SetPosition(
+            pcbnew.VECTOR2I(
+                pcbnew.FromMM(spec["x_mm"]), pcbnew.FromMM(spec["y_mm"])
+            )
+        )
+        footprint.SetReference(spec["ref"])
+        footprint.SetValue(spec["value"])
+        # The registry binding travels with the footprint, so the BOM is
+        # resolved from the design, not reconstructed from designators.
+        footprint.SetField("opc_id", spec["opc_id"])
+        board.Add(footprint)
+        placed.append(
+            {
+                "ref": spec["ref"],
+                "value": spec["value"],
+                "footprint": f"{spec['lib']}:{spec['footprint']}",
+                "opc_id": spec["opc_id"],
+                "x_mm": spec["x_mm"],
+                "y_mm": spec["y_mm"],
+            }
+        )
+    return placed
+
+
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     board = pcbnew.NewBoard(str(BOARD_FILE))
+    settings = board.GetDesignSettings()
+    settings.m_MinThroughDrill = pcbnew.FromMM(MIN_THROUGH_DRILL_MM)
     add_outline(board)
     holes = add_mounting_holes(board)
+    components = add_components(board)
     pcbnew.SaveBoard(str(BOARD_FILE), board)
 
     manifest = {
         "board": "reference-esp32s3",
         "outline_mm": {"x": BOARD_W_MM, "y": BOARD_H_MM},
         "mounting_holes": holes,
+        "components": components,
         "kicad_version": pcbnew.GetBuildVersion(),
         "envelope_source": (
             "OpenPartsCore boards/esp32-s3 (Espressif ESP32-S3-WROOM-1 datasheet, "
@@ -109,6 +188,8 @@ def main() -> int:
 
     print(f"wrote {BOARD_FILE.relative_to(ROOT)}")
     print(f"  outline {BOARD_W_MM} x {BOARD_H_MM} mm, {len(holes)} M3 mounting holes")
+    print(f"  {len(components)} component(s): " + ", ".join(
+        f"{c['ref']}={c['opc_id']}" for c in components))
     print(f"  kicad {pcbnew.GetBuildVersion()}")
     return 0
 

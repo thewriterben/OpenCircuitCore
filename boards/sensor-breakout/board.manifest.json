@@ -1,0 +1,64 @@
+{
+  "board": "sensor-breakout",
+  "outline_mm": {
+    "x": 22.0,
+    "y": 26.0
+  },
+  "components": [
+    {
+      "ref": "U2",
+      "value": "BME280",
+      "footprint": "Package_LGA:Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering",
+      "opc_id": "electronic/bme280",
+      "x_mm": 11.0,
+      "y_mm": 9.0
+    },
+    {
+      "ref": "R1",
+      "value": "4.7k",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "opc_id": "electronic/r-0603",
+      "x_mm": 5.0,
+      "y_mm": 17.5
+    },
+    {
+      "ref": "R2",
+      "value": "4.7k",
+      "footprint": "Resistor_SMD:R_0603_1608Metric",
+      "opc_id": "electronic/r-0603",
+      "x_mm": 11.0,
+      "y_mm": 17.5
+    },
+    {
+      "ref": "C1",
+      "value": "100n",
+      "footprint": "Capacitor_SMD:C_0603_1608Metric",
+      "opc_id": "electronic/c-0603",
+      "x_mm": 17.0,
+      "y_mm": 17.5
+    }
+  ],
+  "mounting_holes": [
+    {
+      "ref": "H1",
+      "footprint": "MountingHole_2.2mm_M2",
+      "x_mm": 2.6,
+      "y_mm": 23.4
+    },
+    {
+      "ref": "H2",
+      "footprint": "MountingHole_2.2mm_M2",
+      "x_mm": 19.4,
+      "y_mm": 23.4
+    }
+  ],
+  "nets": [
+    "+3V3",
+    "GND",
+    "SCL",
+    "SDA"
+  ],
+  "netlist_source": "boards/reference-esp32s3/sensor-subcircuit.net",
+  "kicad_version": "10.0.5",
+  "note": "Connectivity is derived from the schematic's exported netlist, not restated here. Unrouted by design: correct nets, ratsnest pending a router or a human."
+}

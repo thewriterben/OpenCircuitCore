@@ -1,6 +1,6 @@
 ** Drc report for reference-esp32s3.kicad_pcb **
-** Created on 2026-08-15T18:43:06 **
-** Report includes: Errors, Warnings **
+** Created on 2026-08-15T20:07:33 **
+** Report includes: Errors **
 
 ** Found 0 DRC violations **
 

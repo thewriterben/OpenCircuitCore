@@ -51,3 +51,18 @@ ADR-0001 anticipated exactly this: *"If atopile stalls, the KiCad projects it em
 **Consequences.** Authoring ergonomics get worse: schematics become KiCad files rather than reviewable text, which is a real loss and the thing atopile was chosen for. Mitigations: KiCad's formats are S-expression text and diffable; generation and edits go through scripts under version control; netlist and BOM are exported for review. In exchange, the electronics half now rests on a tool that is genuinely open, offline, long-lived, and already installed.
 
 **A gain that was not the motivation but matters:** `pcb export step|stl` gives a verified path from board geometry into OpenDesignCore's mesh import boundary — board outline, components, and mounting holes as a solid the enclosure model can fit around. The board↔enclosure co-design in the platform's use-case map now has a concrete mechanism instead of a hope.
+
+---
+
+## ADR-0004 — Netlist-as-source: ADR-0003's authoring concession was overstated
+
+**Date:** 2026-08-15
+**Status:** accepted. Amends the *consequences* of ADR-0003; the decision itself (KiCad, not atopile) stands.
+
+**Context.** ADR-0003 accepted a real cost when it dropped atopile: *"Authoring ergonomics get worse: schematics become KiCad files rather than reviewable text, which is a real loss and the thing atopile was chosen for."* Building the first schematic showed that concession was larger than the facts required.
+
+`scripts/make_reference_schematic.py` declares a circuit as parts plus `(part, pin) → net` and derives all geometry. Every connection is a global label placed exactly on the pin's connection point, so nets form by name and there is no wire routing to get subtly wrong. Symbol definitions are lifted verbatim from KiCad's stock libraries into `lib_symbols`, as the format requires.
+
+**Decision.** The netlist description is the source; the `.kicad_sch` is a build artifact, regenerated and not hand-edited. Reviews read the netlist. This is recorded so nobody re-opens the atopile question on the grounds of a loss we have largely recovered.
+
+**Consequences.** Most of what atopile offered — diffable, reviewable, agent-writable circuit source — is available without a hosted dependency or a maintenance-only CLI. What remains genuinely worse: no type system over connections, no package manager for reusable modules, and no schematic *layout* aesthetics (generated sheets are functional, not pretty). Editing a generated schematic in KiCad's GUI puts the artifact ahead of its source, which is a hazard to warn about in CONTRIBUTING rather than to prevent mechanically. Current limits: rotation-0 placement only, and generated sheets do not yet drive the board's netlist.
