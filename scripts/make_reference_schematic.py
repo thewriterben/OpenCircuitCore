@@ -46,17 +46,17 @@ PARTS = [
     {
         "ref": "R1", "lib": "Device", "name": "R", "value": "4.7k",
         "at": (140.0, 100.0), "footprint": "Resistor_SMD:R_0603_1608Metric",
-        "opc_id": "", "nets": {"1": "+3V3", "2": "SDA"},
+        "opc_id": "electronic/r-0603", "nets": {"1": "+3V3", "2": "SDA"},
     },
     {
         "ref": "R2", "lib": "Device", "name": "R", "value": "4.7k",
         "at": (150.0, 100.0), "footprint": "Resistor_SMD:R_0603_1608Metric",
-        "opc_id": "", "nets": {"1": "+3V3", "2": "SCL"},
+        "opc_id": "electronic/r-0603", "nets": {"1": "+3V3", "2": "SCL"},
     },
     {
         "ref": "C1", "lib": "Device", "name": "C", "value": "100n",
         "at": (160.0, 100.0), "footprint": "Capacitor_SMD:C_0603_1608Metric",
-        "opc_id": "", "nets": {"1": "+3V3", "2": "GND"},
+        "opc_id": "electronic/c-0603", "nets": {"1": "+3V3", "2": "GND"},
     },
     # Power flags: without them ERC reports power inputs as undriven.
     {

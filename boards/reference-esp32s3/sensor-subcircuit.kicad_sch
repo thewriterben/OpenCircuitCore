@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "opencircuitcore")
 	(generator_version "1.0")
-	(uuid "b600e005-c347-4ca8-9e61-727d6a834484")
+	(uuid "c85bf385-429b-4258-8358-4918491b061c")
 	(paper "A4")
 	(lib_symbols
 		(symbol
@@ -791,7 +791,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "f057e6f4-d9a5-4594-8f67-5642ad71d866")
+		(uuid "b3dc271b-4d9b-4212-ab95-e4274280094e")
 		(property
 			"Reference"
 			"U2"
@@ -860,7 +860,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "U2")
 					(unit 1)
 				)
@@ -875,7 +875,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "3de546a8-f132-46ca-abae-b702ee90e1f3")
+		(uuid "e8308549-2bb1-40f6-80f3-86afaf872b1b")
 		(property
 			"Reference"
 			"R1"
@@ -929,11 +929,22 @@
 				(hide yes)
 			)
 		)
+		(property
+			"opc_id"
+			"electronic/r-0603"
+			(at 140.0 100.0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(instances
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "R1")
 					(unit 1)
 				)
@@ -948,7 +959,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "a96a2191-03c3-4eb3-99da-def66fbe2b2c")
+		(uuid "a8ce1402-6c16-43c6-80c7-e629308d09a8")
 		(property
 			"Reference"
 			"R2"
@@ -1002,11 +1013,22 @@
 				(hide yes)
 			)
 		)
+		(property
+			"opc_id"
+			"electronic/r-0603"
+			(at 150.0 100.0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(instances
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "R2")
 					(unit 1)
 				)
@@ -1021,7 +1043,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "39c61d82-35cd-4753-b030-3134c34e0a8f")
+		(uuid "382b52e8-8804-41f3-bc18-eba923c0be2d")
 		(property
 			"Reference"
 			"C1"
@@ -1075,11 +1097,22 @@
 				(hide yes)
 			)
 		)
+		(property
+			"opc_id"
+			"electronic/c-0603"
+			(at 160.0 100.0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(instances
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "C1")
 					(unit 1)
 				)
@@ -1094,7 +1127,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "9140e575-62a6-49c8-ba90-f694dd6ea273")
+		(uuid "f6c90870-6867-49c9-bbef-f24c1081e37b")
 		(property
 			"Reference"
 			"#FLG01"
@@ -1152,7 +1185,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "#FLG01")
 					(unit 1)
 				)
@@ -1167,7 +1200,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "b0409828-1d40-4829-b9aa-e51d9722f251")
+		(uuid "ed1f49a4-e52c-4d84-94c5-0e97afbd7d62")
 		(property
 			"Reference"
 			"#FLG02"
@@ -1225,7 +1258,7 @@
 			(project
 				"sensor-subcircuit"
 				(path
-					"/b600e005-c347-4ca8-9e61-727d6a834484"
+					"/c85bf385-429b-4258-8358-4918491b061c"
 					(reference "#FLG02")
 					(unit 1)
 				)
@@ -1242,7 +1275,7 @@
 			)
 			(justify left)
 		)
-		(uuid "eadf195f-372c-4b4d-b775-b4f0c8320f02")
+		(uuid "edc70546-699b-4bc4-9840-fbdf2a13abd7")
 	)
 	(global_label
 		"GND"
@@ -1254,7 +1287,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c039217b-d1e5-4f06-afd8-2576df083c76")
+		(uuid "14a18837-a042-4401-bdb9-a15bdb42a061")
 	)
 	(global_label
 		"+3V3"
@@ -1266,7 +1299,7 @@
 			)
 			(justify left)
 		)
-		(uuid "5a33d322-af34-41a2-8b95-ed20b319c5c6")
+		(uuid "e965cb71-bc3c-4e0f-8af1-1380b74acec5")
 	)
 	(global_label
 		"+3V3"
@@ -1278,7 +1311,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ef07cf7c-7696-442f-8097-d24cb90db015")
+		(uuid "402df829-f21a-4d7c-9ff9-d00f14129ba1")
 	)
 	(global_label
 		"+3V3"
@@ -1290,7 +1323,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7c87d4e9-466c-4979-bd1b-909f71b44e0c")
+		(uuid "04fe7b65-ec10-482a-8af2-ce540f26c2df")
 	)
 	(global_label
 		"GND"
@@ -1302,7 +1335,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f3630fc6-83d1-40c5-8e3f-8cadb1dd7658")
+		(uuid "90c77336-4a1f-4eb1-8661-2c223b3aa12a")
 	)
 	(global_label
 		"SDA"
@@ -1314,7 +1347,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d75c145f-3708-48f2-bc21-bcc74886e9bf")
+		(uuid "2fdd2512-0801-49d9-8c34-81083c7017ec")
 	)
 	(global_label
 		"SCL"
@@ -1326,7 +1359,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a2ee4084-2982-47f3-83b5-b23eb4c72267")
+		(uuid "132abb1c-87dc-4b02-87e7-c2edcbb09cc7")
 	)
 	(global_label
 		"+3V3"
@@ -1338,7 +1371,7 @@
 			)
 			(justify left)
 		)
-		(uuid "3bddbe57-cb43-4b46-804f-81ecdf5bb918")
+		(uuid "f6e15b2e-541d-4b8b-a67f-0909498db6c1")
 	)
 	(global_label
 		"SDA"
@@ -1350,7 +1383,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4161dcdc-a2fe-429b-b630-b94be4ea908a")
+		(uuid "c53a4a39-0869-4df9-be0f-98bc3a680d6c")
 	)
 	(global_label
 		"+3V3"
@@ -1362,7 +1395,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f2a07128-3524-4cdc-a454-80dac8cedce7")
+		(uuid "5ac97fc2-fe87-482e-aa3a-84fa5bdf0ec9")
 	)
 	(global_label
 		"SCL"
@@ -1374,7 +1407,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b6f8bae4-a585-4977-b1c5-974e18f40d97")
+		(uuid "72b0b75c-d13b-4e7b-a0b0-e6e0b0789051")
 	)
 	(global_label
 		"+3V3"
@@ -1386,7 +1419,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d0981587-8954-4a97-9703-0da8ea254dcf")
+		(uuid "1557687e-c8e9-4f4c-bc77-2cd7796514f5")
 	)
 	(global_label
 		"GND"
@@ -1398,7 +1431,7 @@
 			)
 			(justify left)
 		)
-		(uuid "19c80e25-291f-40bb-b631-57ee32faab75")
+		(uuid "743457eb-d5fe-410d-a45f-a950efbdfafc")
 	)
 	(global_label
 		"+3V3"
@@ -1410,7 +1443,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f266d53c-147b-4d4f-a4de-d61a221ad816")
+		(uuid "62116bbd-e3c3-4fdd-a9dc-b89c26d68c04")
 	)
 	(global_label
 		"GND"
@@ -1422,7 +1455,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e646ecfe-ca2a-4ccd-9d66-c8229f4b2362")
+		(uuid "67deb23d-b02d-4580-9656-c8ed4e71c9e4")
 	)
 	(sheet_instances
 		(path
