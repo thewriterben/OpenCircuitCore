@@ -1,0 +1,38 @@
+{
+  "schema_version": 0,
+  "id": "jlcpcb-2layer-1oz",
+  "name": "JLCPCB, 2-layer FR-4, 1 oz outer copper",
+  "description": "Design constraints for the cheapest common JLCPCB process. These are the vendor's stated minimums: a design that passes is manufacturable, not comfortable.",
+  "source": {
+    "citation": "JLCPCB, 'Rigid PCB Manufacturing Capabilities', sections PCB Specifications / Drilling / Traces / Legend / Outline. Figures read for 2-layer FR-4 at 1 oz outer copper.",
+    "url": "https://jlcpcb.com/capabilities/pcb-capabilities",
+    "retrieved": "2026-08-15"
+  },
+  "constraints_mm": {
+    "track_min_width": "0.10",
+    "min_clearance": "0.10",
+    "min_through_drill": "0.15",
+    "vias_min_size": "0.25",
+    "hole_to_hole_min": "0.45",
+    "copper_edge_clearance": "0.20",
+    "silk_clearance": "0.15",
+    "min_silk_text_height": "1.00",
+    "min_silk_text_thickness": "0.15"
+  },
+  "notes": {
+    "track_min_width": "Traces: min. track width and spacing (1 oz), 1- and 2-layer: 0.10 / 0.10 mm (4 / 4 mil).",
+    "min_through_drill": "Drilling: drill diameter, 2-layer: 0.15 - 6.3 mm. The vendor notes 0.15 mm is 'more costly' and prefers 0.2 mm; this profile permits the stated minimum and leaves the cost judgement to the designer.",
+    "vias_min_size": "Drilling: min. via hole size / diameter, 2-layer: 0.15 mm hole / 0.25 mm diameter.",
+    "hole_to_hole_min": "Drilling: pad hole-to-hole spacing 0.45 mm. Via hole-to-hole is looser at 0.2 mm; the stricter figure is applied board-wide.",
+    "copper_edge_clearance": "Outline, routed: copper clearance from routed board edges >= 0.2 mm.",
+    "silk_clearance": "Legend: pad to silkscreen 0.15 mm.",
+    "min_silk_text_height": "Legend: minimum text height 40 mil (1.0 mm); below this characters are unidentifiable.",
+    "min_silk_text_thickness": "Legend: minimum line width 0.15 mm."
+  },
+  "not_encoded": [
+    "Via annular width: the vendor states PTH annular ring >= 0.20 mm (0.25 mm recommended, 2-layer 1 oz) but does not state a via-specific annular minimum. Deriving one from via diameter minus hole size would be inventing a number, so it is left unset. TODO(source): confirm with the vendor.",
+    "NPTH pad annular ring >= 0.45 mm and min. non-plated hole 0.50 mm — KiCad has no board-wide setting for either; they belong in a custom rule file.",
+    "Soldermask bridge 0.10 mm and soldermask expansion — vendor-side processing, not a board DRC constraint.",
+    "Min. board size 3 x 3 mm, max. dimensions, panelisation — checked by the fab at order time."
+  ]
+}
