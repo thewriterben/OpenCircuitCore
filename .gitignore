@@ -1,0 +1,6 @@
+# KiCad per-user state, not design source
+*.kicad_prl
+fp-info-cache
+*-backups/
+*.bak
+*.kicad_pcb-bak
