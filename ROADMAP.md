@@ -6,7 +6,7 @@
 - [x] Schematic: netlist-described, **ERC clean**, netlist and BOM exported (2026-08-15)
 - [x] BOM entries resolve to OpenPartsCore ids, including the generic 0603 passives (2026-08-15)
 - [ ] Gerbers and drill files exported and checked against a fab's rules
-- [ ] Provenance record emitted per build (design hash, KiCad version, DRC ruleset, output hashes) — OpenDesignCore does this; this repo does not yet
+- [x] Provenance record emitted per build: sources, upstream netlist, outputs, ERC/DRC results, KiCad version, commit — canonical JSON, hash-comparable with OpenDesignCore and BINGO; refuses to emit when a check result is unreadable (2026-08-15)
 
 - [x] Schematic drives the board: `boards/sensor-breakout` takes its parts from the shared description and its **nets from the schematic's exported netlist**; 0 DRC violations, unrouted ratsnest reported honestly (2026-08-15)
 
