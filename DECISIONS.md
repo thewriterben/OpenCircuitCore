@@ -66,3 +66,25 @@ ADR-0001 anticipated exactly this: *"If atopile stalls, the KiCad projects it em
 **Decision.** The netlist description is the source; the `.kicad_sch` is a build artifact, regenerated and not hand-edited. Reviews read the netlist. This is recorded so nobody re-opens the atopile question on the grounds of a loss we have largely recovered.
 
 **Consequences.** Most of what atopile offered — diffable, reviewable, agent-writable circuit source — is available without a hosted dependency or a maintenance-only CLI. What remains genuinely worse: no type system over connections, no package manager for reusable modules, and no schematic *layout* aesthetics (generated sheets are functional, not pretty). Editing a generated schematic in KiCad's GUI puts the artifact ahead of its source, which is a hazard to warn about in CONTRIBUTING rather than to prevent mechanically. Current limits: rotation-0 placement only, and generated sheets do not yet drive the board's netlist.
+
+---
+
+## ADR-0005 — The MCP surface inspects and verifies; it does not regenerate
+
+**Date:** 2026-08-15
+**Status:** accepted. Applies OpenDesignCore ADR-0009's execute-vs-propose line to this repo.
+
+**Context.** ADR-0009 draws the line at the store boundary: effects confined to a peer's own content-addressed stores execute, anything reaching beyond stops at a proposal. That rule does not transfer cleanly here, because this repo's writes are not content-addressed artifacts — they are **design source files a human also edits**. `make_sensor_breakout.py` overwrites `sensor-breakout.kicad_pcb`. ADR-0004 already names the hazard: editing a generated file in KiCad's GUI puts the artifact ahead of its source.
+
+Combine the two and the failure is concrete: a person spends an evening routing a board in KiCad, an agent calls a `regenerate` tool for an unrelated reason, and the routing is gone. There is no undo, and git will only help if the work was committed.
+
+**Options considered.**
+1. Expose regeneration and execute it — fastest for agents, and destroys human work the first time it is wrong.
+2. Expose it as a proposal — requires an approval mechanism this repo does not have and would have to invent. ODC could propose to AdvancedStudio because the studio already owns an approval queue; there is no equivalent here.
+3. Do not expose it. Building is a person's action at the CLI.
+
+**Decision.** Option 3. The surface is `list_boards`, `get_bom`, `get_provenance`, `list_fab_profiles`, and `verify`. All execute: their only writes are regenerable ERC/DRC reports, and none can alter a design. Tools that would overwrite design files, export fab packages, or apply a fab profile are absent, and `get_provenance` names the CLI command to run when a record is missing rather than quietly producing one.
+
+**Consequences.** An agent can answer everything worth asking about a design — what is on it, what it costs in parts, whether it passes, against whose rules — and cannot damage one. The cost is that agent-driven design iteration stops at inspection, which is the right trade until this repo has something that can distinguish "regenerate a file nobody has touched" from "regenerate over a human's work". A git-cleanliness check would be that something, and is the obvious way to revisit this; it is not worth building before a real workflow needs it.
+
+**Not a general rule.** ADR-0009's store-boundary test still holds where writes really are content-addressed. This repo is the case where the boundary is a working tree instead, and the answer differs.
