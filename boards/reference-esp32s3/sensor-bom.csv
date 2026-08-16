@@ -1,0 +1,4 @@
+"Reference","Value","Footprint","opc_id"
+"C1","100n","Capacitor_SMD:C_0603_1608Metric",""
+"R1,R2","4.7k","Resistor_SMD:R_0603_1608Metric",""
+"U2","BME280","Package_LGA:Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering","electronic/bme280"
