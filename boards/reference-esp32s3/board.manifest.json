@@ -1,33 +1,51 @@
 {
   "board": "reference-esp32s3",
   "outline_mm": {
-    "x": 30.0,
-    "y": 40.0
+    "x": 34.0,
+    "y": 46.0
   },
   "mounting_holes": [
     {
       "ref": "H1",
       "footprint": "MountingHole_3.2mm_M3",
       "x_mm": 3.5,
-      "y_mm": 3.5
+      "y_mm": 17.0
     },
     {
       "ref": "H2",
       "footprint": "MountingHole_3.2mm_M3",
-      "x_mm": 26.5,
-      "y_mm": 3.5
+      "x_mm": 30.5,
+      "y_mm": 17.0
     },
     {
       "ref": "H3",
       "footprint": "MountingHole_3.2mm_M3",
       "x_mm": 3.5,
-      "y_mm": 36.5
+      "y_mm": 42.5
     },
     {
       "ref": "H4",
       "footprint": "MountingHole_3.2mm_M3",
-      "x_mm": 26.5,
-      "y_mm": 36.5
+      "x_mm": 30.5,
+      "y_mm": 42.5
+    }
+  ],
+  "components": [
+    {
+      "ref": "U1",
+      "value": "ESP32-S3-WROOM-1",
+      "footprint": "RF_Module:ESP32-S3-WROOM-1",
+      "opc_id": "boards/esp32-s3",
+      "x_mm": 17.0,
+      "y_mm": 20.0
+    },
+    {
+      "ref": "U2",
+      "value": "BME280",
+      "footprint": "Package_LGA:Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering",
+      "opc_id": "electronic/bme280",
+      "x_mm": 17.0,
+      "y_mm": 38.0
     }
   ],
   "kicad_version": "10.0.5",

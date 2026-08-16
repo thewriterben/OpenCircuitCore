@@ -1,0 +1,31 @@
+{
+  "board": "reference-esp32s3",
+  "components": [
+    {
+      "refs": "U1",
+      "qty": 1,
+      "value": "ESP32-S3-WROOM-1",
+      "footprint": "ESP32-S3-WROOM-1",
+      "opc_id": "boards/esp32-s3",
+      "name": "esp32-s3",
+      "citation": "Oh-Ben-Claw registry/registry.json (generated from src/peripherals/registry.rs)"
+    },
+    {
+      "refs": "U2",
+      "qty": 1,
+      "value": "BME280",
+      "footprint": "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering",
+      "opc_id": "electronic/bme280",
+      "name": "bme280",
+      "citation": "Oh-Ben-Claw registry/registry.json (generated from src/peripherals/registry.rs)"
+    }
+  ],
+  "mounting_hardware": [
+    {
+      "refs": "H1 H2 H3 H4",
+      "qty": 4,
+      "footprint": "MountingHole_3.2mm_M3"
+    }
+  ],
+  "note": "Resolved from footprint opc_id fields against OpenPartsCore. No netlist yet: this board has no schematic, so the BOM covers placed parts only. Pricing and stock are deliberately absent -- fetch them live from distributors keyed by these ids."
+}
