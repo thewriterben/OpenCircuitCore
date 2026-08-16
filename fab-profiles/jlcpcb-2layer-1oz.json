@@ -31,7 +31,8 @@
   },
   "not_encoded": [
     "Via annular width: the vendor states PTH annular ring >= 0.20 mm (0.25 mm recommended, 2-layer 1 oz) but does not state a via-specific annular minimum. Deriving one from via diameter minus hole size would be inventing a number, so it is left unset. TODO(source): confirm with the vendor.",
-    "NPTH pad annular ring >= 0.45 mm and min. non-plated hole 0.50 mm — KiCad has no board-wide setting for either; they belong in a custom rule file.",
+    "Min. non-plated hole 0.50 mm — now encoded as a custom rule (boards/*/[board].kicad_dru, rule 'npth_min_hole'), proven to fire per ADR-0006.",
+    "NPTH pad annular ring >= 0.45 mm — attempted as a custom rule and withdrawn: KiCad 10.0.5 does not evaluate 'annular_width' for NPTH pads (min 9.0mm against a 0.00mm annulus reported nothing). Remains a human check until a copper-ringed NPTH pad appears on a board here.",
     "Soldermask bridge 0.10 mm and soldermask expansion — vendor-side processing, not a board DRC constraint.",
     "Min. board size 3 x 3 mm, max. dimensions, panelisation — checked by the fab at order time."
   ]
