@@ -13,12 +13,20 @@ Deterministic: same inputs, same board.
 ## Verify and export
 
 ```
-kicad-cli pcb drc --exit-code-violations -o drc-report.txt reference-esp32s3.kicad_pcb
+kicad-cli pcb drc --exit-code-violations --severity-error -o drc-report.txt reference-esp32s3.kicad_pcb
 kicad-cli pcb export step --subst-models -o reference-esp32s3.step reference-esp32s3.kicad_pcb
 kicad-cli pcb export stl -o reference-esp32s3.stl reference-esp32s3.kicad_pcb
 ```
 
 Current state: **0 violations, 0 unconnected** (see `drc-report.txt`).
+
+`--severity-error` was missing from that command until 2026-08-23, and the report it
+produced without it is a different report: seven `silk_over_copper` entries, every one
+of them a warning marked "Local override". Anyone following the documented command
+got `Found 7 DRC violations` on a board whose committed report says zero, which reads
+as a broken board rather than a mis-documented flag. The committed report has always
+said `Report includes: Errors`, so the original run used the flag and the README did
+not record it.
 
 ## Co-design: fit an enclosure to the real board
 
