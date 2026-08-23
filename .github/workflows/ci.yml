@@ -81,3 +81,41 @@ jobs:
               print(f"  FAIL {b}")
           sys.exit(1 if bad else 0)
           PY
+
+      # The guard in emit_provenance.py, tested rather than trusted. It exists
+      # because `.gitattributes` stores text as LF while `kicad-cli` on Windows
+      # writes CRLF, so hashing the working tree records a hash git invalidates
+      # on the next commit. That broke every record in this repo once, silently,
+      # and then recurred on the first attempt to regenerate them — which is the
+      # signature of a bug that needs a gate rather than a fix.
+      #
+      # A "no CRLF in the tree" check would not do: git has already converted
+      # everything to LF by the time this job sees it. The thing to test is that
+      # the emitter refuses.
+      - name: The emitter refuses to hash CRLF text
+        working-directory: OpenCircuitCore
+        run: |
+          python - <<'PY'
+          import pathlib, sys, tempfile
+          sys.path.insert(0, "scripts")
+          from emit_provenance import sha256_file
+
+          with tempfile.TemporaryDirectory() as d:
+              crlf = pathlib.Path(d, "drc-report.txt")
+              crlf.write_bytes(b"Found 0 DRC violations\r\n")
+              try:
+                  sha256_file(crlf)
+              except SystemExit as exc:
+                  assert "CRLF" in str(exc), f"refused, but not for CRLF: {exc}"
+                  print("CRLF text artifact refused, as intended")
+              else:
+                  sys.exit("sha256_file hashed a CRLF file. The guard is gone, and "
+                           "the next regeneration on Windows will silently record "
+                           "hashes that git invalidates on commit.")
+
+              # ...and binary artifacts are still hashed, CR LF bytes and all.
+              blob = pathlib.Path(d, "model.step")
+              blob.write_bytes(b"\x89\r\n\x1a\r\n")
+              sha256_file(blob)
+              print("binary artifact hashed unchanged, as intended")
+          PY
