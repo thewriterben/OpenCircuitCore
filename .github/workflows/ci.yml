@@ -1,0 +1,83 @@
+name: ci
+
+# The awkward repo to give CI, because the checks that matter most — ERC and DRC
+# — need KiCad, and this job does not install it.
+#
+# It turns out not to matter as much as expected. A provenance record here
+# carries a sha256 and a byte count for every source, every output, AND the
+# check report itself. That makes the *chain* verifiable without KiCad: if a
+# `.kicad_pcb` changes and nobody regenerates, the source hash stops matching,
+# and the committed `drc-report.txt` beside it is revealed as describing a board
+# that no longer exists.
+#
+# Which is the failure worth catching here. A stale report is invisible — it
+# says "Found 0 DRC violations" just as convincingly whether or not it still
+# refers to the board in the same directory. Re-running DRC would prove more,
+# and needs a ~1 GB KiCad install and its own ADR about pinning the version CI
+# runs against. This does not pretend to be that: see the top of
+# scripts/verify_provenance.py, which says so where somebody reading a failure
+# will find it.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Named path, because verify_bom.py resolves the registry as a SIBLING
+      # (`ROOT.parent / "OpenPartsCore"`), matching how OpenBuildCore does it.
+      - uses: actions/checkout@v7
+        with:
+          path: OpenCircuitCore
+
+      # README: "part references resolved against OpenPartsCore". Without this
+      # checkout every opc_id has nothing to resolve against, and an
+      # unresolvable id is indistinguishable from a resolvable one until
+      # somebody tries to order it.
+      - uses: actions/checkout@v7
+        with:
+          repository: thewriterben/OpenPartsCore
+          path: OpenPartsCore
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # Sources, outputs and check reports all hash-linked. Does NOT re-run DRC.
+      - name: Provenance records still describe the files they claim
+        working-directory: OpenCircuitCore
+        run: python scripts/verify_provenance.py
+
+      - name: Every BOM line resolves to a registry part
+        working-directory: OpenCircuitCore
+        run: python scripts/verify_bom.py
+
+      # A fab profile is where vendor capability figures enter the repo, and
+      # DRC is run against them. An uncited one is a set of numbers somebody
+      # remembered — the same failure the rest of the platform gates on.
+      - name: Fab profiles are cited
+        working-directory: OpenCircuitCore
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad = []
+          profiles = sorted(pathlib.Path("fab-profiles").glob("*.json"))
+          if not profiles:
+              sys.exit("No fab profiles found. Failing rather than passing a check "
+                       "that checked nothing.")
+          for p in profiles:
+              d = json.loads(p.read_text(encoding="utf-8"))
+              if not (d.get("source") or {}).get("citation", "").strip():
+                  bad.append(f"{p}: no source.citation")
+          print(f"{len(profiles)} fab profile(s) checked")
+          for b in bad:
+              print(f"  FAIL {b}")
+          sys.exit(1 if bad else 0)
+          PY
