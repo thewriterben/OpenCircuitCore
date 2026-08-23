@@ -41,12 +41,31 @@ OUTPUTS = (
 REPORTS = ("erc-report.txt", "drc-report.txt")
 
 
+# `.gitattributes` declares `* text=auto eol=lf`, so git stores every text file
+# with LF regardless of what wrote it — and `kicad-cli` on Windows writes CRLF.
+# Hashing the working-tree bytes therefore records a hash git invalidates on the
+# very next commit. That is not hypothetical: it is how every record in this repo
+# came to be broken once already, silently, and it recurred on the first attempt
+# to regenerate them.
+#
+# Refusing beats normalising here. Normalising would make the record describe
+# something other than the file on disk, and the file on disk is what a reader
+# hashes when they check. So: fail, name the file, and say what to do about it.
+BINARY_SUFFIXES = {".step", ".png", ".3mf", ".vdb"}
+CRLF = b"\r\n"
+
+
 def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(65536), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    data = path.read_bytes()
+    if path.suffix.lower() not in BINARY_SUFFIXES and CRLF in data:
+        raise SystemExit(
+            f"{path.name} has CRLF line endings.\n\n"
+            f".gitattributes declares `* text=auto eol=lf`, so git will store this "
+            f"file with LF and\nthe hash recorded here would be wrong the moment it "
+            f"is committed — the failure that\nbroke every record in this repo once "
+            f"already.\n\nConvert it to LF and re-run:\n\n    dos2unix {path}\n"
+        )
+    return hashlib.sha256(data).hexdigest()
 
 
 def canonical(obj) -> bytes:
