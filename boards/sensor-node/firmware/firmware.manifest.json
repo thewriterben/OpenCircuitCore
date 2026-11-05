@@ -1,0 +1,66 @@
+{
+  "board": "sensor-node",
+  "deploy": {
+    "command": [
+      "espflash",
+      "flash",
+      "--monitor",
+      "target/xtensa-esp32s3-espidf/release/obc-esp32-s3"
+    ],
+    "executed": false,
+    "note": "Proposal only. Build OBC-Prime with these pins, then a human runs the command with the board on USB. This tool never flashes.",
+    "tool": "espflash"
+  },
+  "derived": {
+    "bme280_address_rule": "Bosch BME280 datasheet, section 6.2 I2C interface: CSB high selects I2C; SDO connected to GND gives address 0x76, SDO connected to VDDIO gives 0x77. SDO must not float.",
+    "bme280_csb_net": "+3V3",
+    "bme280_i2c_address": "0x76",
+    "bme280_sdo_net": "GND",
+    "i2c_scl_gpio": 9,
+    "i2c_scl_module_pad": "17",
+    "i2c_scl_net": "SCL",
+    "i2c_sda_gpio": 8,
+    "i2c_sda_module_pad": "12",
+    "i2c_sda_net": "SDA",
+    "reserved_gpios_checked": {
+      "0": "strapping",
+      "19": "usb",
+      "20": "usb",
+      "3": "strapping",
+      "45": "strapping",
+      "46": "strapping"
+    },
+    "reserved_gpios_source": {
+      "citation": "Espressif ESP32-S3-WROOM-1/1U Datasheet, section 'Strapping Pins' (GPIO0, GPIO3, GPIO45, GPIO46 sampled at reset to set boot mode, ROM log, VDD_SPI voltage and JTAG source). USB_D- / USB_D+ are GPIO19 / GPIO20 per the pin description table (module pads 13, 14). A design that drives a sensor bus on any of these pins is refused by OpenCircuitCore scripts/make_firmware.py.",
+      "retrieved": "2026-11-04",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32-s3-wroom-1_wroom-1u_datasheet_en.pdf"
+    }
+  },
+  "netlist": {
+    "file": "sensor-node.net",
+    "sha256": "0dbe15d62c87798ddad397049f7981f2a6f01e59a3d7d3f8f979e8d5523033d6"
+  },
+  "outputs": {
+    "pins.h": "353501c940821cd1d7918e1bce41355efb6a0b2ec9dca44c0fe5d71c2295c400",
+    "pins.rs": "e51abe7c7683a004f3e34954acac5dcb97257e8d45342ab07ca5a835c30f4f83"
+  },
+  "parts": {
+    "module": {
+      "opc_entry_sha256": "cec6ff7c9269e051a81e620989b7b200fddd398bc7e85091c8264b03766c3010",
+      "opc_id": "electronic/esp32-s3-wroom-1",
+      "part": "ESP32-S3-WROOM-1",
+      "ref": "U1"
+    },
+    "sensor": {
+      "opc_entry_sha256": "060dbbc90f7f8ca1f9cc92550551115a5ef18026a3e03d468974149f8b1eb27f",
+      "opc_id": "electronic/bme280",
+      "part": "BME280",
+      "ref": "U2"
+    }
+  },
+  "record": "occ-firmware/0.1",
+  "tool": {
+    "name": "opencircuitcore/make_firmware.py",
+    "version": "0.1.0"
+  }
+}

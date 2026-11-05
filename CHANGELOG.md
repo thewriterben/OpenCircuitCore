@@ -1,6 +1,14 @@
 # Changelog
 
 ## [Unreleased]
+
+### Added (2026-11-04) — Phase 2: a device, not a subcircuit
+- `boards/sensor-node/` + `scripts/make_sensor_node.py` / `make_sensor_node_board.py`: ESP32-S3-WROOM-1 + BME280 + 1x04 sensor header + 1x06 programming header. 13 parts, 44 pin connections, 8 nets; **ERC 0 violations** (every unused module pin carries an explicit `no_connect`, now emitted by the shared generator), 44 × 52 mm board, **DRC 0 violations, 34 unconnected** (unrouted by design). STEP/STL exported. Provenance emitted and verified.
+- `make_reference_schematic.build(parts, out, project)`: the schematic generator is a function; `PARTS`/`main()` unchanged for the reference subcircuit. Writes LF regardless of platform (the provenance checker's `.gitattributes` rule).
+- `scripts/lf.py` and `to_lf()` in the board/routing scripts: every design source and report is LF the moment it is written, so `emit_provenance.py` no longer refuses Windows-generated boards.
+- `scripts/route_board.py`: headless routing, `pcbnew.ExportSpecctraDSN` → FreeRouting 2.x (`-de -do -mp --gui.enabled=false`) → `ImportSpecctraSES` → `kicad-cli pcb drc`; `routing.json` hashes every input and output. Exit 3 with the DSN kept when the router is not on disk, which is the state in this repo until FreeRouting is downloaded. GPL-3.0 at the process boundary, same rule as KiCad.
+- `scripts/make_firmware.py`: **firmware pins from the netlist.** Finds the module's `IOnn` pin on the sensor's SDI/SCK nets (GPIO8/GPIO9 here), the BME280 address from where SDO is tied (0x76; Bosch datasheet §6.2), refuses CSB not high, SDO floating, or a bus pin in the module's cited strapping/USB list (OpenPartsCore `attributes.strapping_pins`). Emits `pins.rs` (OBC-Prime `Board.i2c` shape), `pins.h`, and `firmware.manifest.json` with a *proposed* `espflash` command, `executed: false`. Refusal tested: SDA on GPIO0 → exit 2, nothing written.
+
 ### Added
 - Repo scaffolded: ADR-0001 (atopile + KiCad), ADR-0002 (Apache-2.0, GPL containment), architecture, roadmap, dependency policy.
 

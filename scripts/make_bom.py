@@ -126,8 +126,7 @@ def main() -> int:
 
     with (out_dir / "bom.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(
-            handle, fieldnames=["refs", "qty", "value", "footprint", "opc_id", "name", "citation"]
-        )
+            handle, fieldnames=["refs", "qty", "value", "footprint", "opc_id", "name", "citation"], lineterminator="\n")  # LF: .gitattributes
         writer.writeheader()
         writer.writerows(lines)
 

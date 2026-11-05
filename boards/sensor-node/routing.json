@@ -1,0 +1,12 @@
+{
+  "record": "occ-routing/0.1",
+  "board": "sensor-node.kicad_pcb",
+  "board_sha256_before": "7b16e4b9a8d9893a677ac1fa6319b19668d5a6259c9940ff5e6762150fa2ee2f",
+  "dsn": {
+    "file": "sensor-node.dsn",
+    "sha256": "e06bef4440ccff22fb844cb27136e939303decac0b10a02cfbef715cd367599d"
+  },
+  "kicad_version": "10.0.5",
+  "status": "router_missing",
+  "note": "FreeRouting not given or not found. DSN exported; route it interactively in KiCad or run FreeRouting on the DSN and re-run this script with --freerouting."
+}
