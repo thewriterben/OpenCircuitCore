@@ -122,6 +122,7 @@ def main() -> int:
         )
         + "\n",
         encoding="utf-8",
+        newline="\n",  # LF: .gitattributes
     )
 
     with (out_dir / "bom.csv").open("w", newline="", encoding="utf-8") as handle:
