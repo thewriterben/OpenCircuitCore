@@ -11,7 +11,7 @@
 - [x] Schematic drives the board: `boards/sensor-breakout` takes its parts from the shared description and its **nets from the schematic's exported netlist**; 0 DRC violations, unrouted ratsnest reported honestly (2026-08-15)
 
 ## Next
-- [~] Routing: `scripts/route_board.py` drives FreeRouting 2.x headlessly (DSN → SES → DRC, hashed in `routing.json`); runs once the binary is on disk, exits 3 with the DSN kept until then. Still not writing one (2026-11-04)
+- [x] Routing: `scripts/route_board.py` drives FreeRouting 2.5.0 headlessly (DSN → SES → DRC, hashed in `routing.json`); `sensor-node` routed clean, 143 tracks / 8 vias / DRC 0 against the JLCPCB profile. Exits 3 with the DSN kept when no router is given. Still not writing one (2026-11-04)
 - [x] Connectors: `boards/sensor-node` has a 1x04 sensor header and a 1x06 programming header, both registry entries (2026-11-04)
 - [x] Firmware from the netlist: `scripts/make_firmware.py` derives I2C GPIOs and the BME280 address from the exported netlist, refuses strapping/USB pins from the cited registry list, proposes (never runs) the `espflash` deploy (2026-11-04)
 - [ ] OBC-Prime `Board` const that consumes `firmware/pins.rs`; build and flash the sensor-node image once a board exists

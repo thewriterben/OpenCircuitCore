@@ -18,7 +18,10 @@ available: the DSN is kept so a human can route or run FreeRouting by hand.
 
 FreeRouting is GPL-3.0 and stays at the process boundary, like KiCad
 (DECISIONS.md). It is not vendored: pass its path. Flags per the FreeRouting
-2.x CLI (-de design in, -do session out, -mp max passes, --gui.enabled=false).
+2.x CLI (-de design in, -do session out, -mp max passes, --gui.enabled=false,
+--router.automatic_neckdown=false so the router never narrows below the board's minimum).
+Prefer the .jar: the 2.5.0 native CLI hangs after loading the board (upstream
+issue #957, GraalVM serialization); the script then reports router_timeout.
 """
 from __future__ import annotations
 
@@ -64,9 +67,13 @@ def run_drc(board_file: Path) -> dict:
         [kicad_cli(), "pcb", "drc", "--severity-error", "-o", str(report), str(board_file)],
         capture_output=True, text=True,
     )
+    if report.exists():
+        to_lf(report)  # kicad-cli writes CRLF on Windows
     text = report.read_text(encoding="utf-8", errors="replace") if report.exists() else ""
-    viol = re.search(r"Found (\d+) violations", text)
-    unconn = re.search(r"Found (\d+) unconnected items", text)
+    # The report file says "Found N DRC violations" / "Found N unconnected pads";
+    # kicad-cli's stdout says "Found N violations" / "Found N unconnected items".
+    viol = re.search(r"Found (\d+) (?:DRC )?violations", text)
+    unconn = re.search(r"Found (\d+) unconnected (?:items|pads)", text)
     return {
         "report": report.name,
         "report_sha256": sha256(report) if report.exists() else None,
@@ -81,6 +88,7 @@ def main() -> int:
     ap.add_argument("board")
     ap.add_argument("--freerouting", default=None, help="FreeRouting executable or .jar")
     ap.add_argument("--passes", type=int, default=20, help="FreeRouting -mp (max passes)")
+    ap.add_argument("--java", help="java executable for a .jar router (FreeRouting 2.5.0 needs Java 25; default: java on PATH)")
     ap.add_argument("--timeout", type=int, default=1200, help="seconds before the router is killed")
     args = ap.parse_args()
 
@@ -116,13 +124,18 @@ def main() -> int:
         return 3
 
     if router.suffix.lower() == ".jar":
-        java = shutil.which("java")
+        java = args.java or shutil.which("java")
         if not java:
-            raise SystemExit("--freerouting is a .jar but java is not on PATH")
+            raise SystemExit("--freerouting is a .jar but java is not on PATH; pass --java")
         cmd = [java, "-jar", str(router)]
     else:
         cmd = [str(router)]
-    cmd += ["-de", str(dsn), "-do", str(ses), "-mp", str(args.passes), "--gui.enabled=false"]
+    cmd += ["-de", str(dsn), "-do", str(ses), "-mp", str(args.passes), "--gui.enabled=false",
+            # FreeRouting narrows tracks to escape congestion (docs/settings.md router.automatic_neckdown,
+            # default true). Measured on sensor-node 2.5.0: 13 -> 10 wires at 0.15 mm, not 0; the
+            # fanout stage still necks GND stubs at the module's 1.5 mm-pitch pads. The board's
+            # minimum track width therefore has to come from the fab profile, not from this flag.
+            "--router.automatic_neckdown=false"]
     if ses.exists():
         ses.unlink()
     try:

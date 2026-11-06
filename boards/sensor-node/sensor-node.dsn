@@ -31,75 +31,37 @@
     )
   )
   (placement
-    (component C_0603_1608Metric
-      (place C3 13000 -43000 front 0 (PN 100n))
-      (place C1 13000 -38000 front 0 (PN 100n))
-      (place C4 28000 -43000 front 0 (PN 100n))
-      (place C2 33000 -38000 front 0 (PN 10u))
-    )
-    (component R_0603_1608Metric
-      (place R3 28000 -38000 front 0 (PN 10k))
-      (place R2 23000 -38000 front 0 (PN 4.7k))
-      (place R1 18000 -38000 front 0 (PN 4.7k))
-    )
-    (component "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering"
-      (place U2 8000 -38000 front 0 (PN BME280))
-    )
     (component MountingHole_3.2mm_M3
+      (place H1 3500 -17000 front 0 (PN MountingHole_3.2mm_M3))
       (place H4 40500 -48500 front 0 (PN MountingHole_3.2mm_M3))
       (place H3 3500 -48500 front 0 (PN MountingHole_3.2mm_M3))
       (place H2 40500 -17000 front 0 (PN MountingHole_3.2mm_M3))
-      (place H1 3500 -17000 front 0 (PN MountingHole_3.2mm_M3))
+    )
+    (component C_0603_1608Metric
+      (place C4 28000 -43000 front 0 (PN 100n))
+      (place C2 33000 -38000 front 0 (PN 10u))
+      (place C3 13000 -43000 front 0 (PN 100n))
+      (place C1 13000 -38000 front 0 (PN 100n))
     )
     (component "ESP32-S3-WROOM-1"
       (place U1 22000 -20000 front 0 (PN "ESP32-S3-WROOM-1"))
     )
+    (component "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering"
+      (place U2 8000 -38000 front 0 (PN BME280))
+    )
     (component PinHeader_1x04_P2.54mm_Vertical
       (place J1 9000 -48500 front 90 (PN SENSOR))
+    )
+    (component R_0603_1608Metric
+      (place R2 23000 -38000 front 0 (PN 4.7k))
+      (place R3 28000 -38000 front 0 (PN 10k))
+      (place R1 18000 -38000 front 0 (PN 4.7k))
     )
     (component PinHeader_1x06_P2.54mm_Vertical
       (place J2 21000 -48500 front 90 (PN PROG))
     )
   )
   (library
-    (image C_0603_1608Metric
-      (outline (polygon signal 0  1475 -725  -1475 -725  -1475 725  1475 725))
-      (outline (path signal 120  -140.58 510  140.58 510))
-      (outline (path signal 120  -140.58 -510  140.58 -510))
-      (outline (path signal 100  -800 400  800 400  800 -400  -800 -400  -800 400))
-      (pin RoundRect[T]Pad_900.000000x950.000000_225.856000_um_0.000000_0 1 -775 0)
-      (pin RoundRect[T]Pad_900.000000x950.000000_225.856000_um_0.000000_0 2 775 0)
-    )
-    (image R_0603_1608Metric
-      (outline (polygon signal 0  1475 -725  -1475 -725  -1475 725  1475 725))
-      (outline (path signal 120  -237.258 522.5  237.258 522.5))
-      (outline (path signal 120  -237.258 -522.5  237.258 -522.5))
-      (outline (path signal 100  -800 412.5  800 412.5  800 -412.5  -800 -412.5  -800 412.5))
-      (pin RoundRect[T]Pad_800.000000x950.000000_200.761000_um_0.000000_0 1 -825 0)
-      (pin RoundRect[T]Pad_800.000000x950.000000_200.761000_um_0.000000_0 2 825 0)
-    )
-    (image "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering"
-      (outline (polygon signal 0  1405 -1535  -1405 -1535  -1405 1535  1405 1535))
-      (outline (path signal 100  -1350 -1350  -1350 -1200))
-      (outline (path signal 100  -1350 -1360  -1200 -1360))
-      (outline (path signal 100  1200 1350  1350 1350))
-      (outline (path signal 100  1350 1350  1350 1200))
-      (outline (path signal 100  1350 -1350  1200 -1350))
-      (outline (path signal 100  1350 -1350  1350 -1200))
-      (outline (path signal 100  -1250 500  -500 1250))
-      (outline (path signal 100  -1250 -1250  -1250 500))
-      (outline (path signal 100  -500 1250  1250 1250))
-      (outline (path signal 100  1250 1250  1250 -1250))
-      (outline (path signal 100  1250 -1250  -1250 -1250))
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 1 -975 1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 2 -325 1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 3 325 1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 4 975 1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 5 975 -1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 6 325 -1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 7 -325 -1025)
-      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 8 -975 -1025)
-    )
     (image MountingHole_3.2mm_M3
       (outline (polygon signal 0  372.747 3427.32  741.112 3366.93  1100.8 3267.06  1447.58 3128.89
             1777.39 2954.03  2086.35 2744.55  2370.86 2502.89  2627.57 2231.88
@@ -133,6 +95,14 @@
             3180.58 352.026  3200 0))
       (keepout "" (circle F.Cu 3700))
       (keepout "" (circle B.Cu 3700))
+    )
+    (image C_0603_1608Metric
+      (outline (polygon signal 0  1475 -725  -1475 -725  -1475 725  1475 725))
+      (outline (path signal 120  -140.58 510  140.58 510))
+      (outline (path signal 120  -140.58 -510  140.58 -510))
+      (outline (path signal 100  -800 400  800 400  800 -400  -800 -400  -800 400))
+      (pin RoundRect[T]Pad_900.000000x950.000000_225.856000_um_0.000000_0 1 -775 0)
+      (pin RoundRect[T]Pad_900.000000x950.000000_225.856000_um_0.000000_0 2 775 0)
     )
     (image "ESP32-S3-WROOM-1"
       (outline (polygon signal 0  23995 6755  9745 6755  9745 -13445  -9745 -13445  -9745 6755
@@ -205,6 +175,28 @@
       (keepout "" (polygon F.Cu 0  -24000 6750  24000 6750  24000 27750  -24000 27750  -24000 6750))
       (keepout "" (polygon B.Cu 0  -24000 6750  24000 6750  24000 27750  -24000 27750  -24000 6750))
     )
+    (image "Bosch_LGA-8_2.5x2.5mm_P0.65mm_ClockwisePinNumbering"
+      (outline (polygon signal 0  1405 -1535  -1405 -1535  -1405 1535  1405 1535))
+      (outline (path signal 100  -1350 -1350  -1350 -1200))
+      (outline (path signal 100  -1350 -1360  -1200 -1360))
+      (outline (path signal 100  1200 1350  1350 1350))
+      (outline (path signal 100  1350 1350  1350 1200))
+      (outline (path signal 100  1350 -1350  1200 -1350))
+      (outline (path signal 100  1350 -1350  1350 -1200))
+      (outline (path signal 100  -1250 500  -500 1250))
+      (outline (path signal 100  -1250 -1250  -1250 500))
+      (outline (path signal 100  -500 1250  1250 1250))
+      (outline (path signal 100  1250 1250  1250 -1250))
+      (outline (path signal 100  1250 -1250  -1250 -1250))
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 1 -975 1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 2 -325 1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 3 325 1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 4 975 1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 5 975 -1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 6 325 -1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 7 -325 -1025)
+      (pin Rect[T]Pad_500.000000x350.000000_um (rotate 90) 8 -975 -1025)
+    )
     (image PinHeader_1x04_P2.54mm_Vertical
       (outline (polygon signal 0  -1765 -9385  -1765 1765  1765 1765  1765 -9385))
       (outline (path signal 120  -1380 1380  0 1380))
@@ -222,6 +214,14 @@
       (pin Round[A]Pad_1700.000000_um 2 0 -2540)
       (pin Round[A]Pad_1700.000000_um 3 0 -5080)
       (pin Round[A]Pad_1700.000000_um 4 0 -7620)
+    )
+    (image R_0603_1608Metric
+      (outline (polygon signal 0  1475 -725  -1475 -725  -1475 725  1475 725))
+      (outline (path signal 120  -237.258 522.5  237.258 522.5))
+      (outline (path signal 120  -237.258 -522.5  237.258 -522.5))
+      (outline (path signal 100  -800 412.5  800 412.5  800 -412.5  -800 -412.5  -800 412.5))
+      (pin RoundRect[T]Pad_800.000000x950.000000_200.761000_um_0.000000_0 1 -825 0)
+      (pin RoundRect[T]Pad_800.000000x950.000000_200.761000_um_0.000000_0 2 825 0)
     )
     (image PinHeader_1x06_P2.54mm_Vertical
       (outline (polygon signal 0  -1765 -14465  -1765 1765  1765 1765  1765 -14465))
@@ -295,22 +295,16 @@
     )
   )
   (network
-    (net +3V3
-      (pins C3-1 R3-1 R2-1 C1-1 U2-2 U2-6 U2-8 U1-2 C2-1 J1-1 J2-6 R1-1)
+    (net EN
+      (pins C4-1 U1-3 J2-5 R3-2)
     )
     (net GND
-      (pins C3-2 C1-2 U2-1 U2-5 U2-7 U1-1 U1-40 U1-41 U1-41@1 U1-41@2 U1-41@3 U1-41@4
-        U1-41@5 U1-41@6 U1-41@7 U1-41@8 U1-41@9 U1-41@10 U1-41@11 U1-41@12 C4-2 C2-2
-        J1-2 J2-1)
+      (pins C4-2 U1-1 U1-40 U1-41 U1-41@1 U1-41@2 U1-41@3 U1-41@4 U1-41@5 U1-41@6
+        U1-41@7 U1-41@8 U1-41@9 U1-41@10 U1-41@11 U1-41@12 U2-1 U2-5 U2-7 C2-2 C3-2
+        C1-2 J1-2 J2-1)
     )
-    (net EN
-      (pins R3-2 U1-3 C4-1 J2-5)
-    )
-    (net SCL
-      (pins R2-2 U2-4 U1-17 J1-4)
-    )
-    (net SDA
-      (pins U2-3 U1-12 J1-3 R1-2)
+    (net +3V3
+      (pins U1-2 U2-2 U2-6 U2-8 C2-1 C3-1 C1-1 J1-1 R2-1 J2-6 R3-1 R1-1)
     )
     (net "unconnected-(U1-IO4-Pad4)"
       (pins U1-4)
@@ -336,6 +330,9 @@
     (net "unconnected-(U1-IO18-Pad11)"
       (pins U1-11)
     )
+    (net SDA
+      (pins U1-12 U2-3 J1-3 R1-2)
+    )
     (net "unconnected-(U1-USB_D--Pad13)"
       (pins U1-13)
     )
@@ -347,6 +344,9 @@
     )
     (net "unconnected-(U1-IO46-Pad16)"
       (pins U1-16)
+    )
+    (net SCL
+      (pins U1-17 U2-4 J1-4 R2-2)
     )
     (net "unconnected-(U1-IO10-Pad18)"
       (pins U1-18)

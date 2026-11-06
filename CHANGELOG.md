@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed (2026-11-04) — sensor-node routed clean
+- `boards/sensor-node`: **routed** with FreeRouting 2.5.0 (jar on Java 25): 143 tracks, 8 vias, **DRC 0 violations, 0 unconnected** against `fab-profiles/jlcpcb-2layer-1oz` (applied before routing, as on `sensor-breakout`). STEP/STL re-exported from the routed board; provenance re-emitted, 47 artifacts verified.
+- `scripts/route_board.py`: `--java` for a `.jar` router (2.5.0 needs Java 25; the native `freerouting-cli.exe` hangs after loading the DSN, upstream #957); `--router.automatic_neckdown=false` in the router command, with the measured caveat that it reduces but does not remove 0.15 mm fanout stubs at the module's pad pitch; DRC parser reads kicad-cli's report wording (`** Found N DRC violations **` / `unconnected pads`) and normalises the report to LF, so `routing.json` now carries real numbers and `routed_clean` instead of `None`.
+
 ### Added (2026-11-04) — Phase 2: a device, not a subcircuit
 - `boards/sensor-node/` + `scripts/make_sensor_node.py` / `make_sensor_node_board.py`: ESP32-S3-WROOM-1 + BME280 + 1x04 sensor header + 1x06 programming header. 13 parts, 44 pin connections, 8 nets; **ERC 0 violations** (every unused module pin carries an explicit `no_connect`, now emitted by the shared generator), 44 × 52 mm board, **DRC 0 violations, 34 unconnected** (unrouted by design). STEP/STL exported. Provenance emitted and verified.
 - `make_reference_schematic.build(parts, out, project)`: the schematic generator is a function; `PARTS`/`main()` unchanged for the reference subcircuit. Writes LF regardless of platform (the provenance checker's `.gitattributes` rule).
