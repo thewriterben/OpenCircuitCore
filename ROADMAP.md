@@ -6,6 +6,8 @@
 - [x] Schematic: netlist-described, **ERC clean**, netlist and BOM exported (2026-08-15)
 - [x] BOM entries resolve to OpenPartsCore ids, including the generic 0603 passives (2026-08-15)
 - [x] Gerbers and drill exported, and DRC run against a **cited** fab profile (JLCPCB 2-layer 1 oz): 0 violations (2026-08-15)
+- [x] `sensor-node` fab package: routed, GND poured both layers, DRC 0 with its own proven `.kicad_dru`, 9 Gerber layers + drill + placement CSV under provenance (2026-11-05)
+- [ ] JLCPCB assembly files: CPL column mapping plus per-package rotation offsets checked against the vendor preview; BOM with LCSC numbers
 - [x] Provenance record emitted per build: sources, upstream netlist, outputs, ERC/DRC results, KiCad version, commit — canonical JSON, hash-comparable with OpenDesignCore and BINGO; refuses to emit when a check result is unreadable (2026-08-15)
 
 - [x] Schematic drives the board: `boards/sensor-breakout` takes its parts from the shared description and its **nets from the schematic's exported netlist**; 0 DRC violations, unrouted ratsnest reported honestly (2026-08-15)

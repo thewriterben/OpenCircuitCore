@@ -37,6 +37,8 @@ OUTPUTS = (
     "fab/*.gbr", "fab/*.gbl", "fab/*.gtl", "fab/*.gbs", "fab/*.gts",
     "fab/*.gbo", "fab/*.gto", "fab/*.gbp", "fab/*.gtp", "fab/*.gba",
     "fab/*.gta", "fab/*.gm1", "fab/*.gbrjob", "fab/*.drl",
+    # Placement (CPL) for assembly; sensor-breakout has none.
+    "fab/*.csv",
 )
 REPORTS = ("erc-report.txt", "drc-report.txt")
 

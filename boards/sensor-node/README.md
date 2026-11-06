@@ -31,6 +31,12 @@ python scripts/lf.py boards/sensor-node/erc-report.txt boards/sensor-node/sensor
 kicad-cli pcb drc --severity-error -o boards/sensor-node/drc-report.txt boards/sensor-node/sensor-node.kicad_pcb
 python scripts/lf.py boards/sensor-node/drc-report.txt
 <KiCad>/bin/python.exe scripts/route_board.py boards/sensor-node/sensor-node.kicad_pcb --freerouting <freerouting-2.5.0.jar> --java <Java 25 java.exe>
+<KiCad>/bin/python.exe scripts/add_ground_pour.py boards/sensor-node/sensor-node.kicad_pcb   # after routing, never before
+kicad-cli pcb drc --severity-error -o boards/sensor-node/drc-report.txt boards/sensor-node/sensor-node.kicad_pcb
+kicad-cli pcb export gerbers --layers "F.Cu,B.Cu,F.Mask,B.Mask,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,Edge.Cuts" -o boards/sensor-node/fab/ boards/sensor-node/sensor-node.kicad_pcb
+kicad-cli pcb export drill --format excellon -o boards/sensor-node/fab/ boards/sensor-node/sensor-node.kicad_pcb
+kicad-cli pcb export pos --format csv --units mm --side both --exclude-dnp -o boards/sensor-node/fab/sensor-node-pos.csv boards/sensor-node/sensor-node.kicad_pcb
+python scripts/lf.py boards/sensor-node/drc-report.txt boards/sensor-node/fab/*
 <KiCad>/bin/python.exe scripts/make_bom.py boards/sensor-node/sensor-node.kicad_pcb ../OpenPartsCore
 python scripts/make_firmware.py boards/sensor-node/sensor-node.net --openpartscore ../OpenPartsCore --out boards/sensor-node/firmware
 kicad-cli pcb export step --subst-models -o boards/sensor-node/sensor-node.step boards/sensor-node/sensor-node.kicad_pcb
@@ -48,7 +54,10 @@ schematic: 13 parts, 44 pin connections, nets: +3V3, EN, GND, IO0, RXD0, SCL, SD
 ERC:       Found 0 violations    (every unused module pin carries an explicit no-connect)
 board:     outline 44.0 x 52.0 mm, 11 components, 4 x M3 holes; design rules = fab-profiles/jlcpcb-2layer-1oz
 routing:   FreeRouting 2.5.0 (jar, Java 25): 143 tracks, 8 vias, routed_clean in routing.json
-DRC:       Found 0 DRC violations, Found 0 unconnected pads   (after routing, against the JLCPCB profile)
+pour:      GND on F.Cu and B.Cu (1185 / 1482 mm^2 filled), stops at the antenna keepout y = 13.25 mm
+DRC:       Found 0 DRC violations, Found 0 unconnected pads   (after pour, JLCPCB profile + sensor-node.kicad_dru)
+warnings:  silk only: 70 silk_overlap, 63 silk_over_copper, 2 silk_edge_clearance (fab clips silk off pads)
+fab/:      9 Gerber layers + job file, 1 Excellon drill (34 holes: 12 x 0.20, 8 x 0.30, 10 x 1.00, 4 x 3.20 NPTH), placement CSV
 firmware:  I2C SDA=GPIO8 SCL=GPIO9, BME280 at 0x76 (SDO->GND, CSB->+3V3); strapping/USB pins clear
 ```
 
@@ -70,6 +79,8 @@ firmware:  I2C SDA=GPIO8 SCL=GPIO9, BME280 at 0x76 (SDO->GND, CSB->+3V3); strapp
 | IO0 on PROG header, no pull-up | GPIO0 has the chip's internal weak pull-up; a programmer pulls it low | ESP32-S3 datasheet strapping description. TODO(source): confirm the module datasheet does not require an external resistor |
 | Headers 2.54 mm 1x04 / 1x06 | J1 SENSOR (3V3, GND, SDA, SCL); J2 PROG (GND, TXD0, RXD0, IO0, EN, 3V3) | OpenPartsCore `electronic/pinheader-2.54-1x04`, `-1x06` (cited to the KiCad footprints; MPN-level data TODO) |
 | Mounting holes below y = 17 mm | antenna keepout spans the board width above it | measured on `reference-esp32s3` |
+| GND pour, both layers | clearance 0.30 mm, min width 0.25 mm, thermal reliefs 0.30 gap / 0.30 spoke, unconnected islands removed | design choice, wider than the profile's 0.10 mm so the pour never sets the tightest gap; `scripts/add_ground_pour.py`. The module footprint's own keepout rule area keeps copper out from under the antenna |
+| `sensor-node.kicad_dru`: `npth_min_hole` 0.50 mm | JLCPCB "Min. Non-plated holes 0.50mm" | copied from `sensor-breakout`, **re-proven here**: at 5.0 mm it reports H1–H4 and nothing else (ADR-0006) |
 | Design rules from `jlcpcb-2layer-1oz` | min track 0.10, clearance 0.10, through drill 0.15, via 0.25, hole-to-hole 0.45, copper-edge 0.20 mm | `fab-profiles/jlcpcb-2layer-1oz.json`, cited to JLCPCB's capabilities page; applied with `scripts/apply_fab_profile.py` (the board script's 0.2 mm drill relaxation for the module's thermal vias is superseded by the profile's 0.15) |
 
 ## Firmware hand-off
@@ -77,7 +88,8 @@ firmware:  I2C SDA=GPIO8 SCL=GPIO9, BME280 at 0x76 (SDO->GND, CSB->+3V3); strapp
 `firmware/pins.rs` is written for OBC-Prime's `Board { i2c: Option<(i32, i32)>, .. }`: `I2C = Some((8, 9))`, `BME280_I2C_ADDR = 0x76`. `firmware/pins.h` carries the same for an ESP-IDF build. `firmware.manifest.json` records the netlist sha256, both OpenPartsCore entry hashes, every derived value with the rule that produced it, and a **proposed** `espflash flash --monitor …` command with `executed: false`. The tool never flashes (ADR-0005; OpenDesignCore ADR-0009 execute-vs-propose). A netlist that puts SDA on a strapping pin is refused with the citation quoted (tested: exit 2, nothing written).
 
 ## Not done
-- Gerbers and a `.kicad_dru` for the capabilities KiCad has no board-wide setting for (`sensor-breakout` carries `npth_min_hole`; the same rule applies here once proven to fire on this board, ADR-0006).
-- Copper pours: GND is routed as tracks and vias, no zone. Fine for a first article, not what a shipped board should look like.
+- **An assembly order.** `fab/sensor-node-pos.csv` is KiCad's placement file (Ref, Val, Package, PosX, PosY, Rot, Side). JLCPCB's CPL wants Designator / Mid X / Mid Y / Layer / Rotation, and its rotation zero differs per package from KiCad's. Mapping columns is mechanical, but the rotation offsets have to be checked against JLCPCB's placement preview. They are not invented here. The BOM has no LCSC part numbers either, because OpenPartsCore entries are families, not MPNs.
+- Silkscreen tidy-up: reference labels overlap at this placement density (warnings only).
+- Stitching vias between the two GND pours; the router's GND tracks and vias carry the connection today.
 - An OBC-Prime `Board` const for this node that `include!`s `pins.rs`; OBC-Prime targets pre-built dev boards today.
 - Enclosure: `sensor-node.step` is exported for OpenDesignCore's mesh import; connector access features (OpenPartsCore ADR-0007) for J1/J2 are not yet written.

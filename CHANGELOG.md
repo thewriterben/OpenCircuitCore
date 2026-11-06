@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added (2026-11-05) — sensor-node fab package
+- `scripts/add_ground_pour.py`: GND zone on each copper layer from the Edge.Cuts box, filled with pcbnew's `ZONE_FILLER`; clearance 0.30 mm, thermal reliefs, unconnected islands removed; re-running replaces its own zones by name. Run after routing. On `sensor-node` the fill stops at y = 13.25 mm, the module footprint's antenna keepout.
+- `boards/sensor-node/sensor-node.kicad_dru`: the `npth_min_hole` rule, re-proven on this board per ADR-0006 (at 5.0 mm it flags H1–H4 and nothing else). DRC after pour: **0 violations, 0 unconnected**; warnings are silkscreen only.
+- `boards/sensor-node/fab/`: 9 Gerber layers (copper, mask, paste, silk, edge; no empty user layers), job file, Excellon drill (34 holes, matching 12 thermal vias + 8 routed vias + 10 header pins + 4 M3), KiCad placement CSV. `emit_provenance.py` now hashes `fab/*.csv`; 15 outputs verified.
+
 ### Changed (2026-11-04) — sensor-node routed clean
 - `boards/sensor-node`: **routed** with FreeRouting 2.5.0 (jar on Java 25): 143 tracks, 8 vias, **DRC 0 violations, 0 unconnected** against `fab-profiles/jlcpcb-2layer-1oz` (applied before routing, as on `sensor-breakout`). STEP/STL re-exported from the routed board; provenance re-emitted, 47 artifacts verified.
 - `scripts/route_board.py`: `--java` for a `.jar` router (2.5.0 needs Java 25; the native `freerouting-cli.exe` hangs after loading the DSN, upstream #957); `--router.automatic_neckdown=false` in the router command, with the measured caveat that it reduces but does not remove 0.15 mm fanout stubs at the module's pad pitch; DRC parser reads kicad-cli's report wording (`** Found N DRC violations **` / `unconnected pads`) and normalises the report to LF, so `routing.json` now carries real numbers and `routed_clean` instead of `None`.
