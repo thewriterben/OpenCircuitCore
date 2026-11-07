@@ -1,0 +1,47 @@
+{
+  "record": "occ-routing/0.1",
+  "board": "sensor-node.kicad_pcb",
+  "board_sha256_before": "e2f2683a96bc6102f17b1a2af16480e01662a7a92a1074fb5e4b88f3ce5e4c08",
+  "dsn": {
+    "file": "sensor-node.dsn",
+    "sha256": "f003549bc3647b41a74e431096bdd8d135a14450609a7a1d73387f3653687679"
+  },
+  "kicad_version": "10.0.5",
+  "router": {
+    "name": "freerouting",
+    "path": "C:\\Users\\Benji\\AppData\\Local\\Programs\\freerouting-2.5.0-jar\\freerouting-2.5.0.jar",
+    "sha256": "f6f51bb02245e8e717f9359bd260cc9c5c0b1bc0acc8b7cb2cd5b8ffeb5de3c7",
+    "command": [
+      "C:/Program Files/Android/Android Studio/jbr/bin/java.exe",
+      "-jar",
+      "C:\\Users\\Benji\\AppData\\Local\\Programs\\freerouting-2.5.0-jar\\freerouting-2.5.0.jar",
+      "-de",
+      "F:\\Documents\\GitHub\\OpenCircuitCore\\boards\\sensor-node\\sensor-node.dsn",
+      "-do",
+      "F:\\Documents\\GitHub\\OpenCircuitCore\\boards\\sensor-node\\sensor-node.ses",
+      "-mp",
+      "20",
+      "--gui.enabled=false",
+      "--router.automatic_neckdown=false"
+    ],
+    "exit": 0,
+    "passes": 20,
+    "stdout_tail": "0.94 total CPU seconds, 0.50 GB total allocated, and 142.8 MB peak heap usage.\n2026-11-04 18:23:17.198 INFO   [9A70C2\\A9BD80] Optimization stage started on board 'f5310731a58cbae2805587d55a5134bb'. Baseline router score: 999.83, optimizer score: 686.66, incomplete connections: 0, clearance violations: 1.\n2026-11-04 18:23:18.595 INFO   [9A70C2\\A9BD80] Optimizer pass #1 on board '02b11a4cc43792eea44f177818998d82' was completed in 1.37 seconds with the score of 753.61 (0 unrouted and 0 violations).\n2026-11-04 18:23:18.603 INFO   [9A70C2\\A9BD80] Optimizer pass #1: optimizer score 686.66 -> 753.61 (IMPROVED, 9.7512%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.\n2026-11-04 18:23:18.972 INFO   [9A70C2\\A9BD80] Optimizer pass #2 on board 'f512cf7e6b04c03c555c6ec9cb1d687d' was completed in 0.35 seconds with the score of 762.02 (0 unrouted and 0 violations).\n2026-11-04 18:23:18.981 INFO   [9A70C2\\A9BD80] Optimizer pass #2: optimizer score 753.61 -> 762.02 (IMPROVED, 1.1151%), router score: 1000.00, incomplete connections: 0, clearance violations: 0.\n2026-11-04 18:23:18.981 INFO   [9A70C2\\A9BD80] Stopping optimizer because the improvement in this pass (1.1151%) is below the threshold (2.50%).\n2026-11-04 18:23:18.991 INFO   [9A70C2\\A9BD80] Optimization stage completed:. Baseline router score: 999.83, baseline optimizer score: 686.66, final router score: 1000.00, final optimizer score: 762.02, completed in 1.79 seconds, using 8.03 total CPU seconds, 4.61 GB total allocated, and 162.2 MB peak heap usage.\n2026-11-04 18:23:18.997 INFO   [9A70C2\\A9BD80] Job '9A70C2\\A9BD80' finished with state: COMPLETED (elapsed: 3.17 seconds, finished at UTC: 2026-11-05T01:23:18.994517400Z).\n2026-11-04 18:23:19.024 INFO   Saving output file 'F:\\Documents\\GitHub\\OpenCircuitCore\\boards\\sensor-node\\sensor-node.ses' (SES)...\n2026-11-04 18:23:19.027 INFO   Successfully saved output file 'F:\\Documents\\GitHub\\OpenCircuitCore\\boards\\sensor-node\\sensor-node.ses' (13188 bytes).\n",
+    "stderr_tail": ""
+  },
+  "ses": {
+    "file": "sensor-node.ses",
+    "sha256": "b815650d89d2bb4a9582c6557286511b075653f18a24e4d2c4b453830ef8fa33"
+  },
+  "board_sha256_after": "4bed907b6494d494cd9492ffbb3b34354937d3cb38c1b5c886f4573f25f9229d",
+  "tracks": 143,
+  "vias": 8,
+  "drc": {
+    "report": "drc-report.txt",
+    "report_sha256": "72bd9a12bfa0287960dcf3dc3f218a6950cdabe80493f8e930f73e0527b658c7",
+    "violations": 0,
+    "unconnected": 0,
+    "kicad_cli_exit": 0
+  },
+  "status": "routed_clean"
+}

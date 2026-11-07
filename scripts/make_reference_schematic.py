@@ -123,13 +123,19 @@ def prop(key: str, value: str, x: float, y: float, hide: bool = True):
     ]
 
 
-def main() -> int:
+def build(parts: list, out: Path, project: str) -> tuple[int, list[str]]:
+    """Write a schematic for `parts` to `out`; returns (pin connections, net names).
+
+    Shared by every generated schematic: the sensor subcircuit here, the
+    sensor node in make_sensor_node.py. The description format is the only
+    thing a new board has to supply.
+    """
     symdir = find_symdir()
     root_uuid = uid()
 
     # Embed each distinct symbol definition once.
     defs = {}
-    for part in PARTS:
+    for part in parts:
         key = f"{part['lib']}:{part['name']}"
         if key not in defs:
             defs[key] = load_symbol(symdir, part["lib"], part["name"])
@@ -145,7 +151,7 @@ def main() -> int:
     ]
 
     labels = []
-    for part in PARTS:
+    for part in parts:
         key = f"{part['lib']}:{part['name']}"
         sym_x, sym_y = part["at"]
         points = pin_points(defs[key])
@@ -170,7 +176,7 @@ def main() -> int:
             instance.append(prop("opc_id", part["opc_id"], sym_x, sym_y))
         instance.append([
             Sym("instances"),
-            [Sym("project"), PROJECT,
+            [Sym("project"), project,
              [Sym("path"), f"/{root_uuid}",
               [Sym("reference"), part["ref"]], [Sym("unit"), Sym("1")]]],
         ])
@@ -191,15 +197,31 @@ def main() -> int:
                 [Sym("uuid"), uid()],
             ])
 
+        # Every pin the description leaves off a net gets an explicit no-connect
+        # marker, so ERC can tell "unused by design" from "forgotten".
+        for pin_number, (px, py) in points.items():
+            if pin_number in part["nets"]:
+                continue
+            labels.append([
+                Sym("no_connect"),
+                [Sym("at"), Sym(str(round(sym_x + px, 4))), Sym(str(round(sym_y - py, 4)))],
+                [Sym("uuid"), uid()],
+            ])
+
     doc.extend(labels)
     doc.append([Sym("sheet_instances"), [Sym("path"), "/", [Sym("page"), "1"]]])
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(sexp.dump(doc) + "\n", encoding="utf-8")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(sexp.dump(doc) + "\n", encoding="utf-8", newline="\n")  # LF: .gitattributes
+    nets = sorted({net for part in parts for net in part["nets"].values()})
+    n_conn = sum(1 for l in labels if l[0] == Sym("global_label"))
+    return n_conn, nets
 
-    nets = sorted({net for part in PARTS for net in part["nets"].values()})
+
+def main() -> int:
+    n_labels, nets = build(PARTS, OUT, PROJECT)
     print(f"wrote {OUT.relative_to(ROOT)}")
-    print(f"  {len(PARTS)} parts, {len(labels)} pin connections, nets: {', '.join(nets)}")
+    print(f"  {len(PARTS)} parts, {n_labels} pin connections, nets: {', '.join(nets)}")
     return 0
 
 
