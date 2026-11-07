@@ -92,4 +92,4 @@ firmware:  I2C SDA=GPIO8 SCL=GPIO9, BME280 at 0x76 (SDO->GND, CSB->+3V3); strapp
 - Silkscreen tidy-up: reference labels overlap at this placement density (warnings only).
 - Stitching vias between the two GND pours; the router's GND tracks and vias carry the connection today.
 - An OBC-Prime `Board` const for this node that `include!`s `pins.rs`; OBC-Prime targets pre-built dev boards today.
-- Enclosure: `sensor-node.step` is exported for OpenDesignCore's mesh import; connector access features (OpenPartsCore ADR-0007) for J1/J2 are not yet written.
+- Enclosure: done. OpenPartsCore `boards/opencircuitcore-sensor-node` (ADR-0008) records J1/J2 and their access from `sensor-node.step`, and OpenDesignCore `examples/sensor-node-enclosure` (0.1) is cut and printed from it. Open: the antenna keep-out around U1 is not yet pinned from Espressif's guidelines.
